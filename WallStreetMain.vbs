@@ -44,12 +44,12 @@ ws.Range("K" & 1).Value = "TotalStockVolumn"
   ' Loop through rows
   For i = 2 To LastRow
   
-  'Total_Vol = Total_Vol + ws.Cells(i, 7)
+  Total_Vol = Total_Vol + ws.Cells(i, 7)
     
     ' Searches for when the value of the next cell is different than that of the current cell
     If ws.Cells(i + 1, column).Value <> ws.Cells(i, column).Value Then
     
-    Total_Vol = Total_Vol + ws.Cells(i, 7)
+    'Total_Vol = Total_Vol + ws.Cells(i, 7)
     
     Year_Close = ws.Cells(i, 6).Value
     
@@ -63,9 +63,14 @@ ws.Range("K" & 1).Value = "TotalStockVolumn"
     
     ws.Cells(Ticker_Symbol_Row, 9) = Yearly_Change
     
-    Percent_Change = Round((Yearly_Change / Year_Open) * 100, 2)
-    
-    ws.Range("J" & Ticker_Symbol_Row).Value = "%" & Percent_Change
+    If Year_Open = 0 Then
+    Percent_Change = 1
+    Else
+    'Percent_Change = Round((Yearly_Change / Year_Open) * 100, 2)
+    Percent_Change = Yearly_Change / Year_Open
+    End If
+    ws.Cells(Ticker_Symbol_Row, 10).NumberFormat = "0.00%"
+    ws.Cells(Ticker_Symbol_Row, 10).Value = Percent_Change
     
     ws.Cells(Ticker_Symbol_Row, 11) = Total_Vol
     
@@ -84,6 +89,7 @@ ws.Range("K" & 1).Value = "TotalStockVolumn"
 Next ws
 
 End Sub
+
 
 
 
